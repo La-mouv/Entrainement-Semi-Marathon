@@ -47,26 +47,6 @@
             background-color: #e0e0e0;
         }
     
-    .centered-btn-container {
-        text-align: center;
-        margin: 20px 0;
-    }
-
-    .centered-btn-container button {
-        background-color: #007BFF;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-
-    .centered-btn-container button:hover {
-        background-color: #0056b3;
-    }
-
     </style>
 </head>
 <body>
@@ -149,9 +129,6 @@
     </tbody>
 </table>
 
-<div id="trainingSummaryBtn" onclick="getNextTraining()">Prochaine sortie ?
-</div>
-
 <script>
 
 const trainingSchedule = [
@@ -174,27 +151,26 @@ function getNextTraining() {
     let currentWeek = Math.ceil((currentDate - new Date(currentDate.getFullYear(), 0, 1)) / (7 * 24 * 60 * 60 * 1000));
     let currentDay = currentDate.getDay();
 
-    // Fonction pour trouver l'entraînement en fonction de la semaine et du jour
     function findTraining(week, day) {
         return trainingSchedule.find(training => training.week.includes(week) && training.day > day);
     }
 
     let nextTraining = findTraining(currentWeek, currentDay);
 
-    // Si nous ne trouvons pas d'entraînement pour la semaine actuelle, cherchons la semaine suivante
     while (!nextTraining && currentWeek <= 18) {
         currentWeek++;
         currentDay = 0;
         nextTraining = findTraining(currentWeek, currentDay);
     }
 
-    // Mettre à jour le bouton
     if (nextTraining) {
-        document.getElementById('trainingSummaryBtn').innerHTML = `${currentDate.toDateString()} : ${nextTraining.type} - ${nextTraining.zone}`;
-    } else {
-        document.getElementById('trainingSummaryBtn').innerHTML = "Pas d'entraînement pour le moment";
+        // Génération dynamique de l'URL en fonction du type d'entraînement
+        const typeParam = nextTraining.type === "🚴" ? "velo" : "course";
+        const targetURL = `resume.html?type=${typeParam}&zone=${encodeURIComponent(nextTraining.zone)}&date=${currentDate.toDateString()}`;
+        window.location.href = targetURL;  // Rediriger vers le résumé
     }
 }
+
 
 </script>
 
