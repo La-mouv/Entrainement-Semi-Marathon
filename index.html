@@ -153,22 +153,22 @@
 <p id="summary"></p>
 
 <script>
-    function generateSummary() {
-        const today = new Date();
-        const dayOfWeek = today.getDay();
+function generateSummary() {
+    const today = new Date();
+    const dayOfWeek = today.getDay();
 
-        let summary = "";
-        
-        if (dayOfWeek === 2) { // Mardi
-            summary = "&#128690; Aujourd'hui, c'est une sortie à vélo ! Prends ton casque et fais vrom vrom !";
-        } else if (dayOfWeek === 6) { // Samedi
-            summary = "&#127939; Aujourd'hui, c'est une sortie de course ! Chauffe tes jambes et prends ton envol comme un avion !";
-        } else {
-            summary = "Rien de prévu pour aujourd'hui ! C'est une journée de repos. 😊";
-        }
-
-        document.getElementById("summary").innerHTML = summary;
+    let summary = "";
+    
+    if (dayOfWeek === 2) { // Mardi
+        summary = "&#128690; Aujourd'hui, c'est une sortie à vélo ! Prends ton casque et fais vrom vrom !";
+    } else if (dayOfWeek === 6) { // Samedi
+        summary = "&#127939; Aujourd'hui, c'est une sortie de course ! Chauffe tes jambes et prends ton envol comme un avion !";
+    } else {
+        summary = "Rien de prévu pour aujourd'hui ! C'est une journée de repos. 😊";
     }
+
+    alert(summary); // Utilise la fonction alert pour afficher un popup avec le résumé
+}
 </script>
 
     
