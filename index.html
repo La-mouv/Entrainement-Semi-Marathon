@@ -149,10 +149,9 @@
     </tbody>
 </table>
 
-    <div class="centered-btn-container">
-    <button onclick="generateSummary()">Prochaine sortie ?</button>
+<div class="centered-btn-container">
+    <button id="trainingSummaryBtn" onclick="generateSummary()">Prochaine sortie ?</button>
 </div>
-
 
 <script>
 function generateSummary() {
@@ -169,7 +168,8 @@ function generateSummary() {
         summary = "Rien de prévu pour aujourd'hui ! C'est une journée de repos. 😊";
     }
 
-    alert(summary); // Utilise la fonction alert pour afficher un popup avec le résumé
+    // Change le texte du bouton
+    document.getElementById("trainingSummaryBtn").innerHTML = summary;
 }
 </script>
 
