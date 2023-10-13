@@ -154,49 +154,38 @@
 </div>
 
 <script>
-function getNextTrainingDate(today) {
-    let nextTrainingDay = today.getDay();
-    
-    // Si aujourd'hui est Mardi ou avant, la prochaine sortie est Mardi
-    if (nextTrainingDay <= 2) {
-        nextTrainingDay = 2;
-    } 
-    // Sinon, si aujourd'hui est avant Samedi, la prochaine sortie est Samedi
-    else if (nextTrainingDay < 6) {
-        nextTrainingDay = 6;
-    } 
-    // Sinon, la prochaine sortie est le Mardi de la semaine prochaine
-    else {
-        nextTrainingDay = 9; // 9 est Mardi de la semaine prochaine (7 jours dans une semaine + 2 pour Mardi)
-    }
-    
-    const daysUntilNextTraining = nextTrainingDay - today.getDay();
-    const nextTrainingDate = new Date(today);
-    nextTrainingDate.setDate(today.getDate() + daysUntilNextTraining);
-
-    return nextTrainingDate;
-}
-
 function generateSummary() {
     const today = new Date();
-    const nextTrainingDate = getNextTrainingDate(today);
+    let foundNextTraining = false;
+    let summary = "";
 
-    let sport = "";
-    let zone = "";
+    // Parcourir le tableau jusqu'à ce qu'on trouve la prochaine sortie
+    for (let training of trainingSchedule) {
+        if (foundNextTraining) break;
 
-    switch (nextTrainingDate.getDay()) {
-        case 2: // Mardi
-            sport = "&#128690; Vélo";
-            zone = "Zone 2 (114-133 bpm)"; // En général, le mardi est en Zone 2 pour le vélo
-            break;
-        case 6: // Samedi
-            sport = "&#127939; Course";
-            zone = "Zone 2 (114-133 bpm)"; // En général, le samedi est en Zone 2 pour la course
-            break;
+        // Est-ce que cette semaine de formation est applicable ?
+        const weekStartDate = new Date(today);
+        weekStartDate.setDate(weekStartDate.getDate() - today.getDay());
+        const weekEndDate = new Date(weekStartDate);
+        weekEndDate.setDate(weekEndDate.getDate() + 6);
+
+        const currentWeekNumber = Math.ceil(((weekStartDate - new Date(weekStartDate.getFullYear(), 0, 1)) / 86400000 + 1) / 7);
+
+        if (training.week.includes(currentWeekNumber)) {
+            // Vérifier si l'entraînement est encore à venir cette semaine
+            if (today.getDay() <= training.day) {
+                const nextTrainingDate = new Date(today);
+                nextTrainingDate.setDate(today.getDate() + (training.day - today.getDay()));
+
+                summary = `${nextTrainingDate.toLocaleDateString('fr-FR')} : ${training.type} pendant ${training.duration} en ${training.zone}`;
+                foundNextTraining = true;
+            }
+        }
     }
 
-    const summaryDate = nextTrainingDate.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
-    const summary = `${summaryDate} : ${sport} en ${zone}`;
+    if (!foundNextTraining) {
+        summary = "Pas d'entraînement prévu pour le moment.";
+    }
 
     document.getElementById("trainingSummaryBtn").innerHTML = summary;
 }
