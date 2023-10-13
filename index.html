@@ -154,21 +154,50 @@
 </div>
 
 <script>
+function getNextTrainingDate(today) {
+    let nextTrainingDay = today.getDay();
+    
+    // Si aujourd'hui est Mardi ou avant, la prochaine sortie est Mardi
+    if (nextTrainingDay <= 2) {
+        nextTrainingDay = 2;
+    } 
+    // Sinon, si aujourd'hui est avant Samedi, la prochaine sortie est Samedi
+    else if (nextTrainingDay < 6) {
+        nextTrainingDay = 6;
+    } 
+    // Sinon, la prochaine sortie est le Mardi de la semaine prochaine
+    else {
+        nextTrainingDay = 9; // 9 est Mardi de la semaine prochaine (7 jours dans une semaine + 2 pour Mardi)
+    }
+    
+    const daysUntilNextTraining = nextTrainingDay - today.getDay();
+    const nextTrainingDate = new Date(today);
+    nextTrainingDate.setDate(today.getDate() + daysUntilNextTraining);
+
+    return nextTrainingDate;
+}
+
 function generateSummary() {
     const today = new Date();
-    const dayOfWeek = today.getDay();
+    const nextTrainingDate = getNextTrainingDate(today);
 
-    let summary = "";
-    
-    if (dayOfWeek === 2) { // Mardi
-        summary = "&#128690; Aujourd'hui, c'est une sortie à vélo ! Prends ton casque et fais vrom vrom !";
-    } else if (dayOfWeek === 6) { // Samedi
-        summary = "&#127939; Aujourd'hui, c'est une sortie de course ! Chauffe tes jambes et prends ton envol comme un avion !";
-    } else {
-        summary = "Rien de prévu pour aujourd'hui ! C'est une journée de repos. 😊";
+    let sport = "";
+    let zone = "";
+
+    switch (nextTrainingDate.getDay()) {
+        case 2: // Mardi
+            sport = "&#128690; Vélo";
+            zone = "Zone 2 (114-133 bpm)"; // En général, le mardi est en Zone 2 pour le vélo
+            break;
+        case 6: // Samedi
+            sport = "&#127939; Course";
+            zone = "Zone 2 (114-133 bpm)"; // En général, le samedi est en Zone 2 pour la course
+            break;
     }
 
-    // Change le texte du bouton
+    const summaryDate = nextTrainingDate.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+    const summary = `${summaryDate} : ${sport} en ${zone}`;
+
     document.getElementById("trainingSummaryBtn").innerHTML = summary;
 }
 </script>
