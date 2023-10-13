@@ -170,41 +170,33 @@ const trainingSchedule = [
     { week: [18], day: 7, type: "&#127939;", duration: "Semi-Marathon", zone: "Commence en Zone 2, ajuste selon sensations" }
 ];
 
-function generateSummary() {
-    const today = new Date();
-    let foundNextTraining = false;
-    let summary = "";
+function getNextTraining() {
+    const currentDate = new Date();
+    let currentWeek = Math.ceil((currentDate - new Date(currentDate.getFullYear(), 0, 1)) / (7 * 24 * 60 * 60 * 1000));
+    let currentDay = currentDate.getDay();
 
-    // Parcourir le tableau jusqu'à ce qu'on trouve la prochaine sortie
-    for (let training of trainingSchedule) {
-        if (foundNextTraining) break;
-
-        // Est-ce que cette semaine de formation est applicable ?
-        const weekStartDate = new Date(today);
-        weekStartDate.setDate(weekStartDate.getDate() - today.getDay());
-        const weekEndDate = new Date(weekStartDate);
-        weekEndDate.setDate(weekEndDate.getDate() + 6);
-
-        const currentWeekNumber = Math.ceil(((weekStartDate - new Date(weekStartDate.getFullYear(), 0, 1)) / 86400000 + 1) / 7);
-
-        if (training.week.includes(currentWeekNumber)) {
-            // Vérifier si l'entraînement est encore à venir cette semaine
-            if (today.getDay() <= training.day) {
-                const nextTrainingDate = new Date(today);
-                nextTrainingDate.setDate(today.getDate() + (training.day - today.getDay()));
-
-                summary = `${nextTrainingDate.toLocaleDateString('fr-FR')} : ${training.type} pendant ${training.duration} en ${training.zone}`;
-                foundNextTraining = true;
-            }
-        }
+    // Fonction pour trouver l'entraînement en fonction de la semaine et du jour
+    function findTraining(week, day) {
+        return trainingSchedule.find(training => training.week.includes(week) && training.day > day);
     }
 
-    if (!foundNextTraining) {
-        summary = "Pas d'entraînement prévu pour le moment.";
+    let nextTraining = findTraining(currentWeek, currentDay);
+
+    // Si nous ne trouvons pas d'entraînement pour la semaine actuelle, cherchons la semaine suivante
+    while (!nextTraining && currentWeek <= 18) {
+        currentWeek++;
+        currentDay = 0;
+        nextTraining = findTraining(currentWeek, currentDay);
     }
 
-    document.getElementById("trainingSummaryBtn").innerHTML = summary;
+    // Mettre à jour le bouton
+    if (nextTraining) {
+        document.getElementById('trainingSummaryBtn').innerHTML = `${currentDate.toDateString()} : ${nextTraining.type} - ${nextTraining.zone}`;
+    } else {
+        document.getElementById('trainingSummaryBtn').innerHTML = "Pas d'entraînement pour le moment";
+    }
 }
+
 </script>
 
     
