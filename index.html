@@ -127,9 +127,29 @@
         </tr>
     </tbody>
 </table>
+
+<button onclick="generateSummary()">On fait quoi aujourd'hui ???</button>
+<p id="summary"></p>
+
 <script>
-    document.body.innerHTML = document.body.innerHTML.replace(/vélo/g, "&#128690;").replace(/course/g, "&#127939;");
+    function generateSummary() {
+        const today = new Date();
+        const dayOfWeek = today.getDay();
+
+        let summary = "";
+        
+        if (dayOfWeek === 2) { // Mardi
+            summary = "&#128690; Aujourd'hui, c'est une sortie à vélo ! Prends ton casque et fais vrom vrom !";
+        } else if (dayOfWeek === 6) { // Samedi
+            summary = "&#127939; Aujourd'hui, c'est une sortie de course ! Chauffe tes jambes et prends ton envol comme un avion !";
+        } else {
+            summary = "Rien de prévu pour aujourd'hui ! C'est une journée de repos. 😊";
+        }
+
+        document.getElementById("summary").innerHTML = summary;
+    }
 </script>
 
+    
 </body>
 </html>
