@@ -187,7 +187,7 @@ function getNextTraining() {
     if (nextTraining) {
         // Génération dynamique de l'URL en fonction du type d'entraînement
         const typeParam = nextTraining.type === "🚴" ? "velo" : "course";
-        const targetURL = `resume.html?type=${typeParam}&zone=${encodeURIComponent(nextTraining.zone)}&date=${currentDate.toDateString()}`;
+        const targetURL = `résumé.html?type=${typeParam}&zone=${encodeURIComponent(nextTraining.zone)}&date=${currentDate.toDateString()}`;
         window.location.href = targetURL;  // Rediriger vers le résumé
     }
 }
