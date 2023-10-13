@@ -154,6 +154,22 @@
 </div>
 
 <script>
+
+const trainingSchedule = [
+    { week: [1, 2, 3, 4], day: 2, type: "&#128690;", duration: "1h", zone: "Zone 2 (114-133 bpm)" },
+    { week: [1, 2, 3, 4], day: 6, type: "&#127939;", duration: "45 min", zone: "Zone 2 (114-133 bpm)" },
+    { week: [5, 6, 7, 8], day: 2, type: "&#128690;", duration: "50 min", zone: "Zone 1-2 (95-133 bpm) > Zone 3 (133-152 bpm)" },
+    { week: [5, 6, 7, 8], day: 6, type: "&#127939;", duration: "50 min", zone: "Zone 2 (114-133 bpm)" },
+    { week: [9, 10, 11, 12], day: 2, type: "&#128690;", duration: "20 min", zone: "Zone 1-2 (95-133 bpm) > Zone 3" },
+    { week: [9, 10, 11, 12], day: 6, type: "&#127939;", duration: "1h", zone: "Zone 2 (114-133 bpm)" },
+    { week: [13, 14, 15, 16], day: 2, type: "&#128690;", duration: "30 min", zone: "Zone 1-2 (95-133 bpm) > Zone 3" },
+    { week: [13, 14, 15, 16], day: 6, type: "&#127939;", duration: "1h10", zone: "Zone 2 (114-133 bpm)" },
+    { week: [17], day: 2, type: "&#128690;", duration: "1h20", zone: "Zone 2 (114-133 bpm)" },
+    { week: [17], day: 6, type: "&#127939;", duration: "40 min", zone: "Zone 2 (114-133 bpm)" },
+    { week: [18], day: 2, type: "&#128690;", duration: "1h", zone: "Zone 1-2 (95-133 bpm)" },
+    { week: [18], day: 7, type: "&#127939;", duration: "Semi-Marathon", zone: "Commence en Zone 2, ajuste selon sensations" }
+];
+
 function generateSummary() {
     const today = new Date();
     let foundNextTraining = false;
