@@ -47,30 +47,7 @@
         tr:hover {
             background-color: #e0e0e0;
         }
-    #trainingButton {
-    background-color: #3498db; /* Couleur de fond */
-    border: none; /* Supprimer la bordure par défaut */
-    color: white; /* Couleur du texte */
-    padding: 20px 40px; /* Espacement interne du bouton */
-    text-align: center; /* Alignement du texte */
-    text-decoration: none; /* Pas de soulignement */
-    display: inline-block; /* Type d'affichage */
-    font-size: 24px; /* Taille de la police */
-    margin: 4px 2px; /* Marge externe du bouton */
-    cursor: pointer; /* Change le curseur en une main lors du survol */
-    border-radius: 16px; /* Coins arrondis */
-    transition-duration: 0.4s; /* Durée de la transition pour les effets de survol */
-}
-
-#trainingButton:hover {
-    background-color: #2980b9; /* Couleur de fond lorsque le bouton est survolé */
-    color: #ffffff; /* Couleur du texte lors de la survol */
-}
-.center-container {
-    text-align: center;
-}
-
-    </style>
+       </style>
 </head>
 <body>
 <table border="1" cellspacing="0" cellpadding="5">
@@ -151,58 +128,6 @@
         </tr>
     </tbody>
 </table>
-
-    <div class="center-container">
-    <button id="trainingButton" onclick="getNextTraining()">Prochaine sortie ?</button>
-</div>
-
-<button id="trainingButton" onclick="getNextTraining()">Prochaine sortie ?</button>
-
-<script>
-
-const trainingSchedule = [
-    { week: [1, 2, 3, 4], day: 2, type: "&#128690;", duration: "1h", zone: "Zone 2 (114-133 bpm)" },
-    { week: [1, 2, 3, 4], day: 6, type: "&#127939;", duration: "45 min", zone: "Zone 2 (114-133 bpm)" },
-    { week: [5, 6, 7, 8], day: 2, type: "&#128690;", duration: "50 min", zone: "Zone 1-2 (95-133 bpm) > Zone 3 (133-152 bpm)" },
-    { week: [5, 6, 7, 8], day: 6, type: "&#127939;", duration: "50 min", zone: "Zone 2 (114-133 bpm)" },
-    { week: [9, 10, 11, 12], day: 2, type: "&#128690;", duration: "20 min", zone: "Zone 1-2 (95-133 bpm) > Zone 3" },
-    { week: [9, 10, 11, 12], day: 6, type: "&#127939;", duration: "1h", zone: "Zone 2 (114-133 bpm)" },
-    { week: [13, 14, 15, 16], day: 2, type: "&#128690;", duration: "30 min", zone: "Zone 1-2 (95-133 bpm) > Zone 3" },
-    { week: [13, 14, 15, 16], day: 6, type: "&#127939;", duration: "1h10", zone: "Zone 2 (114-133 bpm)" },
-    { week: [17], day: 2, type: "&#128690;", duration: "1h20", zone: "Zone 2 (114-133 bpm)" },
-    { week: [17], day: 6, type: "&#127939;", duration: "40 min", zone: "Zone 2 (114-133 bpm)" },
-    { week: [18], day: 2, type: "&#128690;", duration: "1h", zone: "Zone 1-2 (95-133 bpm)" },
-    { week: [18], day: 7, type: "&#127939;", duration: "Semi-Marathon", zone: "Commence en Zone 2, ajuste selon sensations" }
-];
-
-function getNextTraining() {
-    const currentDate = new Date();
-    let currentWeek = Math.ceil((currentDate - new Date(currentDate.getFullYear(), 0, 1)) / (7 * 24 * 60 * 60 * 1000));
-    let currentDay = currentDate.getDay();
-
-    function findTraining(week, day) {
-        return trainingSchedule.find(training => training.week.includes(week) && training.day > day);
-    }
-
-    let nextTraining = findTraining(currentWeek, currentDay);
-
-    while (!nextTraining && currentWeek <= 18) {
-        currentWeek++;
-        currentDay = 0;
-        nextTraining = findTraining(currentWeek, currentDay);
-    }
-
-    if (nextTraining) {
-        // Génération dynamique de l'URL en fonction du type d'entraînement
-        const typeParam = nextTraining.type === "🚴" ? "velo" : "course";
-        const targetURL = `résumé.html?type=${typeParam}&zone=${encodeURIComponent(nextTraining.zone)}&date=${currentDate.toDateString()}`;
-        window.location.href = targetURL;  // Rediriger vers le résumé
-    }
-}
-
-
-</script>
-
     
 </body>
 </html>
